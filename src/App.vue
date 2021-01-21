@@ -1,28 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <p>{{ $store.state.name }} | {{ indexSuffix }}</p>
+    <p>{{ $store.state.a.name }} | {{ ASuffix }}</p>
+    <p>{{ $store.state.b.name }} | {{ BSuffix }}</p>
+    <!--如果开启命名空间，则只改index-->
+    <button @click="$store.commit('changeName')">改名</button>
+    <br>
+    <button @click="$store.commit('a/changeName')">改名A</button>
+    <br>
+    <button @click="$store.commit('b/changeName')">改名B</button>
+    <br>
+    <button @click="$store.dispatch('changeNameTimeOut')">延时改名</button>
+    <br>
+    <button @click="$store.dispatch('a/changeNameTimeOut')">延时改名A</button>
+    <br>
+    <button @click="$store.dispatch('b/changeNameTimeOut')">延时改名B</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
   name: "App",
-  components: {
-    HelloWorld
+  computed:{
+    indexSuffix(){
+      return this.$store.getters.addSuffix;
+    },
+    ASuffix(){
+      return this.$store.getters["a/addSuffix"];
+    },
+    BSuffix(){
+      return this.$store.getters["b/addSuffix"];
+    }
   }
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
